@@ -47,4 +47,4 @@ Book.objects.all()
 ✅ Book instance deleted and confirmed by empty queryset.
 
 
-##  
+ 
