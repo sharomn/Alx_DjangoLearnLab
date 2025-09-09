@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+    'templates',
 ]
 
 MIDDLEWARE = [
@@ -64,8 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'list_books.html',
-                'library_detail.html',
+                
+            
             ],
         },
     },
