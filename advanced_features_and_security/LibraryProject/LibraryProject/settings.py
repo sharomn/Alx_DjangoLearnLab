@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'relationship_app',
     'templates',
     'relationship_app',
+    'bookshelf.CustomUser',
     
 ]
 
