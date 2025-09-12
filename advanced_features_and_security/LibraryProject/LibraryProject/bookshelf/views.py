@@ -75,6 +75,7 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
 from .forms import BookForm  # assuming you have a form
+from django import forms
 
 @permission_required('relationship_app.can_add_book')
 def add_book(request):
@@ -106,4 +107,33 @@ def delete_book(request, pk):
         book.delete()
         return redirect('book_list')
     return render(request, 'relationship_app/book_confirm_delete.html', {'book': book})
+
+# GOOD
+
+from .forms import SearchForm
+
+def search_books(request):
+    form = SearchForm(request.GET)
+    books = []
+
+    if form.is_valid():
+        user_input = form.cleaned_data['title']
+        books = Book.objects.filter(title__icontains=user_input)
+    else:
+        # Fallback if form is invalid or not submitted
+        user_input = request.GET.get('title', '')
+        books = Book.objects.filter(title__icontains=user_input)
+
+    return render(request, 'relationship_app/book_list.html', {
+        'form': form,
+        'books': books,
+        'user_input': user_input
+    })
+
+
+
+# In views.py
+
+
+
 
