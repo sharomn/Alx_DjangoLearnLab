@@ -8,7 +8,8 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ('publication_year', 'author')            # Sidebar filters
     search_fields = ('title', 'author') 
     
-    
+admin.site.register(Book, BookAdmin) 
+
 from .models import CustomUser
 from django.contrib.auth.admin import UserAdmin
 
@@ -20,4 +21,4 @@ class CustomUserAdmin(UserAdmin):
     ordering = ['username']
                    # Search bar fields
 
-admin.site.register(Book, BookAdmin, CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
