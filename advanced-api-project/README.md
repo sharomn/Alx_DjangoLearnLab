@@ -24,3 +24,21 @@ python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 python manage.py runserver
+
+
+
+## Advanced Query Features
+
+### Filtering
+Use query parameters to filter books:
+- `/api/books/?author=Chimamanda`
+- `/api/books/?publication_year=2020`
+
+### Searching
+Search by title or author:
+- `/api/books/?search=Purple Hibiscus`
+
+### Ordering
+Sort results:
+- `/api/books/?ordering=title`
+- `/api/books/?ordering=-publication_year`
