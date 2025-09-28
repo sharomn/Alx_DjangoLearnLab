@@ -42,3 +42,14 @@ Search by title or author:
 Sort results:
 - `/api/books/?ordering=title`
 - `/api/books/?ordering=-publication_year`
+
+## Testing Strategy
+
+Unit tests are located in `api/test_views.py`. They cover:
+- CRUD operations for Book model
+- Filtering, searching, and ordering
+- Permission enforcement for authenticated vs unauthenticated users
+
+### Running Tests
+```bash
+python manage.py test api
