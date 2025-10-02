@@ -10,6 +10,7 @@ from .models import Post, Comment
 from .forms import CommentForm
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
+from taggit.models import Tag
 
 
 
@@ -133,9 +134,19 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return render(request, 'blog/search_results.html', {'query': query, 'results': results})
     
     def posts_by_tag(request, tag_name):
-        tag = get_object_or_404(tag, name=tag_name)
+        tag = get_object_or_404(Tag, name=tag_name)
         posts = Post.objects.filter(tags=tag)
         return render(request, 'blog/post_list.html', {'posts': posts, 'tag': tag})
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        tag = Tag.objects.get(slug=tag_slug)
+        return Post.objects.filter(tags=tag)
+
 
      
 
