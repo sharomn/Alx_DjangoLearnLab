@@ -9,6 +9,8 @@ from django.urls import reverse_lazy
 from .models import Post, Comment
 from .forms import CommentForm
 from django.shortcuts import get_object_or_404, redirect
+from django.db.models import Q
+
 
 
 def register(request):
@@ -119,6 +121,25 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return self.object.post.get_absolute_url()
+    
+
+    def search_posts(request):
+        query = request.GET.get('q')
+        results = Post.objects.filter(
+             Q(title__icontains=query) |
+             Q(content__icontains=query) |
+             Q(tags__name__icontains=query)
+      ).distinct()
+        return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+    
+    def posts_by_tag(request, tag_name):
+        tag = get_object_or_404(tag, name=tag_name)
+        posts = Post.objects.filter(tags=tag)
+        return render(request, 'blog/post_list.html', {'posts': posts, 'tag': tag})
+
+     
+
+    
 
 
 # Create your views here.
