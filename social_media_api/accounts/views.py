@@ -5,6 +5,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
 from django.http import JsonResponse
+from rest_framework import  permissions
+from django.contrib.auth import get_user_model
 
 class RegisterView(APIView):
     def post(self, request):
@@ -26,5 +28,30 @@ class LoginView(APIView):
 
     def home(request):
         return JsonResponse({"message": "Welcome to the Social Media API"})
+
+
+User = get_user_model()
+
+class FollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+            request.user.following.add(target_user)
+            return Response({'message': f'You are now following {target_user.username}'})
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class UnfollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+            request.user.following.remove(target_user)
+            return Response({'message': f'You have unfollowed {target_user.username}'})
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 # Create your views here.

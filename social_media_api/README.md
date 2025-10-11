@@ -22,3 +22,19 @@
 ### 📄 Pagination
 - Default page size: 10
 - Use `?page=2` to navigate
+
+## 👥 Follow Management
+
+- `POST /api/accounts/follow/<user_id>/` → Follow a user
+- `POST /api/accounts/unfollow/<user_id>/` → Unfollow a user
+
+## 📰 Feed
+
+- `GET /api/feed/` → View posts from followed users (ordered by newest)
+
+## 🔄 User Model Update
+
+- `followers`: ManyToMany to self (non-symmetrical)
+- Access:
+  - `user.following.all()` → users they follow
+  - `user.followers.all()` → users who follow them
