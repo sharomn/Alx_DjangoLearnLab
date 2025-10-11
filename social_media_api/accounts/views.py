@@ -32,7 +32,11 @@ class LoginView(APIView):
 
 User = get_user_model()
 
+CustomUser = get_user_model()
+
+
 class FollowUserView(APIView):
+    queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
@@ -44,6 +48,7 @@ class FollowUserView(APIView):
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class UnfollowUserView(APIView):
+    queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
